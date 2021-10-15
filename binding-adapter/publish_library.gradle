@@ -1,0 +1,30 @@
+apply plugin: 'maven-publish'
+
+group 'com.github.ve3344'
+version '1.0.0'
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+afterEvaluate {
+
+    publishing {
+        publications {
+            library(MavenPublication) {
+                from components.release
+                artifactId 'binding-adapter'
+                artifact sourcesJar
+            }
+        }
+        repositories {
+            mavenLocal()
+            maven {
+                name = 'PublicLib'
+                url = "file://H:/PublicLib"
+            }
+        }
+    }
+
+
+}
