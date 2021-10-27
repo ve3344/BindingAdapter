@@ -3,11 +3,7 @@ package me.lwb.adapter_demo.ui.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.ViewPropertyAnimator
-import android.view.animation.CycleInterpolator
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import me.lwb.adapter_demo.base.ui.viewBinding
 import me.lwb.adapter_demo.databinding.ActivityMainBinding
 import me.lwb.adapter_demo.databinding.ItemPageBinding

@@ -6,6 +6,8 @@
 
 - 无需创建ViewHolder，无需创建Adapter
 
+- 直接操作View，再也不需要View id以及findViewById
+
 - 支持ViewBinding、DataBinding
 
 - 支持下拉刷新
@@ -63,14 +65,20 @@ dependencyResolutionManagement {
 ```groovy
 //in build.gradle(module)
 dependencies {
-    //kotlin utils
-    implementation "com.github.ve3344.utils:binding-adapter:<latest-version>"
-    //android utils
-    implementation "com.github.ve3344.utils:binding-adapter-paging:<latest-version>"
+    //core
+    implementation "com.github.ve3344.binding-adapter:binding-adapter:1.0.0"
+    //paging support
+    implementation "com.github.ve3344.binding-adapter:binding-adapter-paging:1.0.0"
 }
 ```
+# 相关文章
 
-# 示例
+[使用binding-adapter告别新建Adapter和ViewHolder](BLOG_BASE.md)
+[ConcatAdapter和GridLayoutManager同时使用的问题](BLOG_GIRD.md)
+[使用ViewBinding 简化RecyclerView多布局](BLOG_MULTI_TYPE.md)
+[使用ObservableList代替自动adapter.notifyXXXX刷新列表](BLOG_NOTIFY.md)
+[结合Paging3 快速添加下拉刷新](BLOG_SWIPE_REFRESH.md)
+# 简单示例
 
 更多使用方式见Demo
 

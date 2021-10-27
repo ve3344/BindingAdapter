@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import me.lwb.adapter_demo.base.ui.*
 import me.lwb.adapter_demo.data.bean.ProjectBean
@@ -25,7 +26,7 @@ open class PagingActivity : AppCompatActivity() {
 
     //配置数据布局
     val dataAdapter =
-        PagingBindingAdapter(ItemProjectBinding::inflate) { _, item: ProjectBean ->
+         PagingBindingAdapter(ItemProjectBinding::inflate) { _, item: ProjectBean ->
             binding.vm = item
             binding.executePendingBindings()
         }
@@ -50,7 +51,6 @@ open class PagingActivity : AppCompatActivity() {
                 adapter.getAdapterByItemPosition(it) !is PagingDataAdapter<*, *>
             }
         }
-
         //adapter2string(binding.list.adapter)
 
         //observe paging data
