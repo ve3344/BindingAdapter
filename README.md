@@ -74,10 +74,15 @@ dependencies {
 # 相关文章
 
 [使用binding-adapter告别新建Adapter和ViewHolder](BLOG_BASE.md)
+
 [ConcatAdapter和GridLayoutManager同时使用的问题](BLOG_GIRD.md)
+
 [使用ViewBinding 简化RecyclerView多布局](BLOG_MULTI_TYPE.md)
+
 [使用ObservableList代替自动adapter.notifyXXXX刷新列表](BLOG_NOTIFY.md)
+
 [结合Paging3 快速添加下拉刷新](BLOG_SWIPE_REFRESH.md)
+
 # 简单示例
 
 更多使用方式见Demo
