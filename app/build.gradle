@@ -5,6 +5,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        sign {
+            storeFile file('..\\sign.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+            keyPassword '123456'
+        }
+    }
     compileSdk 30
 
     defaultConfig {

@@ -40,6 +40,11 @@
 
 - 极简的设计，所见即所得
 
+# 预览
+![img.png](img.png)
+![img_3.png](img_3.png)
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
 # 安装
 
 #### 添加仓库
@@ -247,6 +252,7 @@ binding.list.layoutManager = GridLayoutManager(this, 2).apply {
     }
 }
 ```
+
 
 # License
 
