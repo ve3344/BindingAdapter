@@ -41,11 +41,17 @@
 - 极简的设计，所见即所得
 
 # 预览
-![img.png](img.png)
-![img_3.png](img_3.png)
-![img_1.png](img_1.png)
-![img_2.png](img_2.png)
-![img_4.png](img_4.png)
+<img src="img.png"  height="400" width="212">
+
+<img src="img_1.png"  height="400" width="212">
+
+<img src="img_2.png"  height="400" width="212">
+
+<img src="img_3.png"  height="400" width="212">
+
+<img src="img_4.png"  height="400" width="400" >
+
+
 # 安装
 
 #### 添加仓库
