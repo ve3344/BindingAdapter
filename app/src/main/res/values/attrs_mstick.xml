@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="StickyLinearLayout_Layout">
+        <attr name="isSticky" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="StickyLinearLayout">
+        <attr name="stickyMode" format="enum">
+            <enum name="last" value="0" />
+            <enum name="all" value="1" />
+        </attr>
+    </declare-styleable>
+
+
+</resources>

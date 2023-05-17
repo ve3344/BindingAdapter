@@ -5,17 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.MutableActivity">
-    <Button
-        android:id="@+id/add"
+    tools:context="me.lwb.adapter.demo.ui.activity.basic.MutableActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/action_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add"
-        />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_action" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </LinearLayout>

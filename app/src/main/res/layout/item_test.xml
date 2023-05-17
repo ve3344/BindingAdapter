@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="40dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center_horizontal"
     android:gravity="center"
-    android:background="#EFE3D2"
-    >
+    android:background="#EFE3D2">
     <TextView
         android:id="@+id/tips"
         android:layout_width="match_parent"
-        android:text="Test"
+        tools:text="Test"
         android:gravity="center"
         android:layout_height="match_parent"/>
 </LinearLayout>

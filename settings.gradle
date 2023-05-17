@@ -9,7 +9,8 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "BindingAdapter"
 include ':app'
 include ':binding-adapter'
 include ':binding-adapter-paging'
+include ':binding-adapter-loadmore'
+include ':binding-adapter-modules'

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <declare-styleable name="StickContainerLayout_Layout">
+        <attr name="stick_type" format="enum">
+            <enum name="header_scroll" value="0" />
+            <enum name="header_stick" value="1" />
+            <enum name="content" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="StickContainerLayout">
+        <attr name="stick_scroll_mode" format="flags">
+            <flag name="before_scroll_up" value="1" />
+            <flag name="before_scroll_down" value="2" />
+            <flag name="after_scroll_up" value="4" />
+            <flag name="after_scroll_down" value="8" />
+            <flag name="prefer_content_show" value="9" />
+            <flag name="before_content" value="3" />
+        </attr>
+        <attr name="stick_mode" format="enum" >
+            <enum name="sticking_latest" value="0" />
+            <enum name="sticking_all" value="1" />
+        </attr>
+    </declare-styleable>
+
+</resources>

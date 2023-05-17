@@ -16,9 +16,9 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "me.lwb.adapter_demo"
+        applicationId "me.lwb.adapter.demo"
         minSdk 21
-        targetSdk 30
+        targetSdk 28
         versionCode 1
         versionName "1.0"
 
@@ -47,10 +47,12 @@ android {
 dependencies {
     implementation project(':binding-adapter')
     implementation project(':binding-adapter-paging')
+    implementation project(':binding-adapter-loadmore')
+    implementation project(':binding-adapter-modules')
     implementation "io.coil-kt:coil:1.4.0"
 
-    implementation "com.github.ve3344.utils:utils-kt:1.5.0"
-    implementation "com.github.ve3344.utils:utils-android:1.5.0"
+    implementation "com.github.ve3344.utils:utils-kt:1.7.0"
+    implementation "com.github.ve3344.utils:utils-android:1.7.0"
     implementation "com.github.ve3344.android-context:context-contentprovider:1.3.0"
 
     api 'com.squareup.okhttp3:okhttp:4.7.2'
@@ -60,6 +62,9 @@ dependencies {
 
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation 'com.brandongogetap:stickyheaders:0.6.2'
+    implementation 'com.wkp:StickLayout:1.0.7'
+    implementation 'com.github.smuyyh:StickyHeaderRecyclerView:1.1.0'
 
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-ktx:1.3.1'

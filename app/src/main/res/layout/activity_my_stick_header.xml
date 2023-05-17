@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="me.lwb.adapter.demo.ui.activity.stick.MyStickHeaderActivity">
+
+
+    <me.lwb.adapter.sticklayout.StickContainerLayout
+        android:id="@+id/stick_layout"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="#eeeeee"
+        app:stick_scroll_mode="prefer_content_show"
+        app:stick_mode="sticking_all"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="0"
+            app:stick_type="header_scroll" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#ffffee"
+            android:elevation="4dp"
+            app:stick_type="header_stick">
+
+        </CheckBox>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher"
+            app:stick_type="header_scroll" />
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab"
+            app:stick_type="header_stick"
+            android:elevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager2"
+            app:stick_type="content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.viewpager2.widget.ViewPager2>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+
+    </me.lwb.adapter.sticklayout.StickContainerLayout>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

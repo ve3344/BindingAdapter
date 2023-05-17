@@ -4,11 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.DialogSelectActivity">
+    android:orientation="vertical"
+    tools:context="me.lwb.adapter.demo.ui.activity.select.DialogSelectActivity">
 
     <Button
-        android:id="@+id/text"
+        android:id="@+id/choose"
         android:text="choose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/choose_direct"
+        android:text="choose direct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

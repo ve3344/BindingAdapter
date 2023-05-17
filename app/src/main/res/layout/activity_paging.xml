@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="me.lwb.adapter_demo.vm.PagingViewModel"/>
+        <import type="me.lwb.adapter.demo.vm.PagingViewModel"/>
         <variable
             name="vm"
-            type="me.lwb.adapter_demo.vm.PagingViewModel" />
+            type="me.lwb.adapter.demo.vm.PagingViewModel" />
     </data>
 
     <LinearLayout

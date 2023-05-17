@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="binding_adapter_view_holder_tag_selected" type="id"/>
+    <item name="binding_adapter_view_holder_tag_wheel_selected" type="id"/>
+
+    <item name="binding_adapter_view_offset_helper" type="id"/>
+
+</resources>

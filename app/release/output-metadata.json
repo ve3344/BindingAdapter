@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "me.lwb.adapter_demo",
+  "applicationId": "me.lwb.adapter.demo",
   "variantName": "processReleaseResources",
   "elements": [
     {

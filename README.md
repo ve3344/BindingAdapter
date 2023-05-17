@@ -1,58 +1,46 @@
 # 使用ViewBinding Adapter
 
-[![](https://jitpack.io/v/ve3344/binding-adapter.svg)](https://jitpack.io/#ve3344/binding-adapter)
+[![License](https://img.shields.io/github/license/ve3344/binding-adapter)](https://github.com/ve3344/binding-adapter/blob/master/LICENSE)
 
-  ❤ 一个使用ViewBinding 直接生成RecyclerView Adapter的库。
+[![Jitpack](https://jitpack.io/v/ve3344/binding-adapter.svg)](https://jitpack.io/#ve3344/binding-adapter)
 
-- 无需创建ViewHolder，无需创建Adapter
+❤ BindingAdapter是一个使用ViewBinding 直接生成RecyclerView Adapter的库，避免创建Adapter类和ViewHolder类。减少80%的代码。
 
-- 直接操作View，再也不需要View id以及findViewById
+并通过AOP的思想解耦了分页模块，选择模块，悬浮模块，等等，使BindingAdapter核心类保持精简，且各个模块自己相互独立。
 
-- 支持ViewBinding、DataBinding
+所有的功能均能在示例中找到。 项目地址[BindingAdapter](https://github.com/ve3344/binding-adapter)
 
-- 支持下拉刷新
+# 特点
 
-- 支持Item的点击事件监听
+- 无需创建ViewHolder类和Adapter类
 
-- 支持添加任意Header和Footer
+- 使用ViewBinding操作View，再也不需要R.id.xxx以及findViewById，支持DataBinding绑定数据
 
-- 支持多布局配置
+- 支持任意位置添加Header和Footer (无侵入)
 
-- 支持Paging3下拉加载更多
+- 支持Item布局的点击事件，长按事件，Item子布局元素点击事件
 
-- 支持添加加载状态（加载中、无更多数据、加载失败、加载完成）
+- 支持通过Class/或者自定义类别快速配置多布局，避免繁琐的viewType
 
-- 支持加载失败点击重试
+- 快速配置分页加载模块，支持Paging3,添加加载状态的Footer,空数据布局等
 
-- 支持没有数据时显示空布局
+- 支持下拉刷新/SwipeRefreshLayout
 
-- 支持折叠和展开items
+- 支持ViewPager2，无限数据、自动滚动等
 
-- 支持隐藏item(不占用布局位置)
+- 快速配置支持滚轮模块，支持多滚轮联动（年月日联动，省市区联动等）
 
-- 支持GirdLayoutManager
+- 快速配置Item悬浮模块，支持头布局悬浮
 
-- 强大的拓展性和自由度
+- 快速配置Item单选，多选模块
 
-- 不依赖任何第三方库，轻量（方法数<40，体积<23kb）
+- 支持折叠和展开Adapter数据，控制一组数据的显示和隐藏，支持完全隐藏item，解决itemView设置GONE 占用布局位置的问题
 
-- 无反射
+- 强大的拓展性和自由度，引入模块无需修改Adapter，RecyclerView，能添加各种监听，拦截，拓展模块等
 
-- 极简的设计，所见即所得
+- 不依赖任何第三方库，轻量，无反射，极简的设计，所见即所得
 
-# 预览
-<img src="img.png"  height="400" width="212">
-
-<img src="img_1.png"  height="400" width="212">
-
-<img src="img_2.png"  height="400" width="212">
-
-<img src="img_3.png"  height="400" width="212">
-
-<img src="img_4.png"  height="400" width="400" >
-
-
-# 安装
+# 集成
 
 #### 添加仓库
 
@@ -74,197 +62,90 @@ dependencyResolutionManagement {
 
 #### 添加依赖
 
+[![binding-adapter](https://jitpack.io/v/ve3344/binding-adapter.svg)](https://jitpack.io/#ve3344/binding-adapter)
+
 ```groovy
 //in build.gradle(module)
 dependencies {
-    //core
-    implementation "com.github.ve3344.binding-adapter:binding-adapter:1.0.0"
-    //paging support
-    implementation "com.github.ve3344.binding-adapter:binding-adapter-paging:1.0.0"
+    //核心类
+    implementation "com.github.ve3344.binding-adapter:binding-adapter:<version>"
+    //动态加载 分页模块
+    implementation "com.github.ve3344.binding-adapter:binding-adapter-loadmore:<version>"
+    //常用拓展模块，单选，多选，WheelView，粘性Item，ViewPager无限数据等
+    implementation "com.github.ve3344.binding-adapter:binding-adapter-modules:<version>"
+    //paging3分页模块
+    implementation "com.github.ve3344.binding-adapter:binding-adapter-paging:<version>"
 }
 ```
-# 相关文章
 
-[使用binding-adapter告别新建Adapter和ViewHolder](BLOG_BASE.md)
+#### 项目开启ViewBinding
 
-[ConcatAdapter和GridLayoutManager同时使用的问题](BLOG_GIRD.md)
+```groovy
+//in build.gradle(module)
+android {
+    //...
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true //可选
+    }
+}
+```
 
-[使用ViewBinding 简化RecyclerView多布局](BLOG_MULTI_TYPE.md)
+# 使用
 
-[使用ObservableList代替自动adapter.notifyXXXX刷新列表](BLOG_NOTIFY.md)
+## [文档](https://github.com/ve3344/binding-adapter/wiki)
 
-[结合Paging3 快速添加下拉刷新](BLOG_SWIPE_REFRESH.md)
+```kotlin
+//in XxxActivity.ky
+val adapter = BindingAdapter<ItemBean, ItemBinding>(ItemBinding::inflate) { position, item ->
+    //在绑定器内，配置对ui元素和bean属性之间的绑定，设置点击事件等。
+    itemBinding.title.text = item.title
+    itemBinding.title.setOnClickListener {
 
-# 简单示例
+    }
+}
+//adapter.addData(...)//添加数据
+//adapter.replaceData(...)//替换数据
+```
 
 更多使用方式见Demo
 
-#### 基本使用
+<img src="demo.png"  height="400" width="400" >
 
-```kotlin
-val list = listOf(
-    PageItemBean("Simple", MutableActivity::class.java),
-    PageItemBean("Dialog", DialogSelectActivity::class.java),
-    PageItemBean("Paging", PagingActivity::class.java),
-    PageItemBean("HeaderFooter", HeaderFooterActivity::class.java),
-    PageItemBean("Expand", ExpandActivity::class.java),
-    PageItemBean("MultiType", MultiTypeActivity::class.java),
-)
-val adapter = BindingAdapter(ItemPageBinding::inflate, list) { position, item ->
-    binding.title.text = item.title
-    binding.title.setOnClickListener {
-        startActivity(Intent(this@MainActivity, item.clz))
-    }
-}
-```
+[Demo下载](https://raw.githubusercontent.com/ve3344/binding-adapter/master/app/release/app-release.apk)
 
-#### 添加Header和Footer
+# 预览
 
-```kotlin
-val header = SingleViewBindingAdapter(HeaderSimpleBinding::inflate)
-val footer = SingleViewBindingAdapter(FooterSimpleBinding::inflate)
+<img src="preview/img1.jpg"  height="400" width="212">
 
-binding.list.adapter = header + adapter + footer
-```
+<img src="preview/img2.jpg"  height="400" width="212">
 
-#### 控制元素折叠和展开
+<img src="preview/img3.jpg"  height="400" width="212">
 
-```kotlin
-adapter.isVisible = isChecked
-```
+<img src="preview/img4.jpg"  height="400" width="212">
 
-#### 配置多布局
+<img src="preview/img5.jpg"  height="400" width="212">
 
-使用MultiTypeAdapterUtils.createConfig创建多布局配置，
+<img src="preview/img6.jpg"  height="400" width="212">
 
-然后生成Adapter 或 PagingAdapter
+<img src="preview/img7.jpg"  height="400" width="212">
 
-```kotlin
-val adapter = MultiTypeAdapterUtils.createConfig<ProjectBean> {
-    //配置item到布局类型的映射(必须)
-    extractItemViewType { position, item ->
-        //type要求从0开始，并且连续
-        position % 2 //根据position 分别映射0，1
-    }
+<img src="preview/img8.jpg"  height="400" width="212">
 
-    //layout按顺序 匹配type
+<img src="preview/img9.jpg"  height="400" width="212">
 
-    //type=0
-    layout(ItemProject2Binding::inflate) { _, item: ProjectBean ->
-        binding.vm = item
-        binding.executePendingBindings()
-    }
+<img src="preview/img10.jpg"  height="400" width="212">
 
-    //type=1
-    layout(ItemProjectBinding::inflate) { _, item: ProjectBean ->
-        binding.vm = item
-        binding.executePendingBindings()
-    }
+## 感谢
 
-}.asPagingAdapter()
-//使用asPagingAdapter 或asAdapter 把多布局配置转换为adapter
+[玩Android Api](https://wanandroid.com/)
 
-```
-
-#### 使用下拉刷新
-
-使用 SwipeRefreshLayout 可参照 SwipeRefreshLayoutExt.kt
-
-```kotlin
-binding.list.wrapSwipeRefresh(adapter)
-
-```
-
-#### 自动刷新列表
-
-Adapter本身不带观察数据刷新，如果需要可参照OnListChangedNotifier
-
-```kotlin
-list.addOnListChangedCallback(OnListChangedNotifier(adapter))
-binding.add.setOnClickListener {
-    list.add("${Date()}")
-    //自动刷新列表数据
-}
-```
-
-#### 结合Paging3
-
-在给PagingDataAdapter添加header等时，可使用rearrange拓展进行重新配置（或自己使用ConcatAdapter拼接） 可以添加任意个header/footer
-
-对加载状态进行监听 
-
-对空数据状态进行监听
-
-```kotlin
-fun PagingDataAdapter<*, *>.configPagingWithHeader(): ConcatAdapter {
-    //重新对Adapter进行依次拼接
-    return rearrange() {
-        //添加 header
-        layoutContent(VirtualViewBindingInflater { parent, _, _ -> ImageView(parent.context) }::inflate) {
-            binding.contentView.setImageResource(R.drawable.ic_launcher_background)
-        }
-        //添加 header
-        layoutContent(HeaderProjectBinding::inflate) {
-            binding.tips.text = "Header2"
-        }
-        //添加分页内容
-        pagingContent()
-        //添加加载状态
-        loadStateContent(FooterProjectBinding::inflate) { loadState ->
-            loadState.onIdle {
-                //空闲，隐藏所有view
-                binding.root.showChildOnly { false }
-            }.onLoading {
-                //加载中，显示加载中
-                binding.root.showChildOnly { it == binding.progressBar }
-            }.onEnd {
-                //没有更多数据了，显示没有更多数据
-                binding.root.showChildOnly { it == binding.reachEnd }
-            }.onError {
-                //加载失败，显示加载失败、
-                binding.root.showChildOnly { it == binding.loadError }
-                binding.loadError.setOnClickListener {
-                    //点击重试
-                    retry()
-                    binding.root.showChildOnly { it == binding.progressBar }
-                    //手动显示加载中
-                }
-            }
-        }
-        //添加数据空布局（数据为空时显示）
-        emptyStateContent(LayoutEmptyBinding::inflate)
-        //添加footer
-        layoutContent(HeaderProjectBinding::inflate) {
-            binding.tips.text = "Footer1"
-        }
-    }
-}
-
-```
-
-#### 使用 GridLayoutManager
-
-本身可直接兼容GridLayoutManager 
-
-如果希望Header/Footer/LoadStateLayout/EmptyLayout单独占据一行,
-
-可重新设置SpanSizeLookup (提供configSingleViewSpan拓展)
-
-```kotlin
-binding.list.layoutManager = GridLayoutManager(this, 2).apply {
-    configSingleViewSpan {
-        //当子adapter 是PagingDataAdapter 时按GirdLayout排列
-        //其它adapter 按单行排列
-        adapter.getAdapterByItemPosition(it) !is PagingDataAdapter<*, *>
-    }
-}
-```
-
+[StickyHeaderScrollView](https://github.com/kongnanlive/StickyHeaderScrollView)
 
 # License
 
 ``` license
- Copyright 2021, luowenbin 
+ Copyright 2021, ve3344@qq.com 
   
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

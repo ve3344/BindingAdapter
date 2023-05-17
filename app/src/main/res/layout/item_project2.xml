@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="me.lwb.adapter_demo.data.bean.ProjectBean" />
+        <import type="me.lwb.adapter.demo.data.bean.ProjectBean" />
 
         <variable
             name="vm"
-            type="ProjectBean" />
+            type="me.lwb.adapter.demo.data.bean.ProjectBean" />
     </data>
 
     <LinearLayout
