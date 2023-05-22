@@ -41,8 +41,7 @@ class LoadMoreGridActivity : AppCompatActivity() {
             configFullSpan { concatAdapter.getAdapterByItemPosition(it) != dataAdapter }
         }
 
-        loadMoreModule.setDataSource(lifecycleScope, vm.projects.source)
-        loadMoreModule.reload()
+        loadMoreModule.setDataSource(lifecycleScope, vm.projects)
         binding.root.setOnRefreshListener { loadMoreModule.reload() }
         loadMoreModule.addLoadMoreStatusListener {
             if (it !is LoadMoreStatus.Loading) {

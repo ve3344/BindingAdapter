@@ -52,8 +52,7 @@ class LoadMoreStaggeredGridActivity : AppCompatActivity() {
 
         binding.list.layoutManager = StaggeredGridLayoutManager(3, RecyclerView.VERTICAL)
 
-        loadMoreModule.setDataSource(lifecycleScope, vm.projects.source)
-        loadMoreModule.reload()
+        loadMoreModule.setDataSource(lifecycleScope, vm.projects)
         binding.root.setOnRefreshListener { loadMoreModule.reload() }
         loadMoreModule.addLoadMoreStatusListener {
             if (it !is LoadMoreStatus.Loading) {

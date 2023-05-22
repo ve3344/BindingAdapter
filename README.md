@@ -1,10 +1,15 @@
 # 使用ViewBinding Adapter
 
-[![License](https://img.shields.io/github/license/ve3344/binding-adapter)](https://github.com/ve3344/binding-adapter/blob/master/LICENSE)
 
-[![Jitpack](https://jitpack.io/v/ve3344/binding-adapter.svg)](https://jitpack.io/#ve3344/binding-adapter)
+<p align="center">
+<img src="https://img.shields.io/badge/language-kotlin-orange.svg"/>
+<a href="https://github.com/ve3344/binding-adapter/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache-blue"/></a>
+<a href="https://jitpack.io/#ve3344/binding-adapter"><img src="https://jitpack.io/v/ve3344/binding-adapter.svg"/></a>
+</p>
 
 ❤ BindingAdapter是一个使用ViewBinding 直接生成RecyclerView Adapter的库，避免创建Adapter类和ViewHolder类。减少80%的代码。
+
+不同于其他对RecyclerView的封装，该库十分精简，核心只有约500行代码，其他模块通过拓展的方式实现。
 
 并通过AOP的思想解耦了分页模块，选择模块，悬浮模块，等等，使BindingAdapter核心类保持精简，且各个模块自己相互独立。
 
@@ -62,19 +67,21 @@ dependencyResolutionManagement {
 
 #### 添加依赖
 
-[![binding-adapter](https://jitpack.io/v/ve3344/binding-adapter.svg)](https://jitpack.io/#ve3344/binding-adapter)
+[![binding-adapter](https://img.shields.io/jitpack/version/com.github.ve3344/binding-adapter?label=binding-adapter)](https://jitpack.io/#ve3344/binding-adapter)
+
+
 
 ```groovy
 //in build.gradle(module)
 dependencies {
     //核心类
-    implementation "com.github.ve3344.binding-adapter:binding-adapter:<version>"
+    implementation "com.github.ve3344.binding-adapter:binding-adapter:2.0.0"
     //动态加载 分页模块
-    implementation "com.github.ve3344.binding-adapter:binding-adapter-loadmore:<version>"
+    implementation "com.github.ve3344.binding-adapter:binding-adapter-loadmore:2.1.0"
     //常用拓展模块，单选，多选，WheelView，粘性Item，ViewPager无限数据等
-    implementation "com.github.ve3344.binding-adapter:binding-adapter-modules:<version>"
+    implementation "com.github.ve3344.binding-adapter:binding-adapter-modules:2.0.0"
     //paging3分页模块
-    implementation "com.github.ve3344.binding-adapter:binding-adapter-paging:<version>"
+    implementation "com.github.ve3344.binding-adapter:binding-adapter-paging:2.0.0"
 }
 ```
 
@@ -141,6 +148,7 @@ val adapter = BindingAdapter<ItemBean, ItemBinding>(ItemBinding::inflate) { posi
 [玩Android Api](https://wanandroid.com/)
 
 [StickyHeaderScrollView](https://github.com/kongnanlive/StickyHeaderScrollView)
+
 
 # License
 

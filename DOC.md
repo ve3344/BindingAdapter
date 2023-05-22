@@ -275,9 +275,13 @@ fun <T> ViewModel.PageLoadMoreData(fetcher: LoadMoreDataFetcher<T, PageProgress>
 
 在ViewModel中定义加载：
 
-- loadMoreData.preloadCount 设置预加载数量
+- loadMoreData.fetchDistance 设置下拉加载距离,0表示不会触发下拉加载
 
 - loadMoreData.reload() 重新加载数据
+
+- loadMoreData.retry() 重试加载
+
+- loadMoreData.loadMore() 加载下一页
 
 - loadMoreData.source 数据源
 

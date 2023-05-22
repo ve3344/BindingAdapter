@@ -18,7 +18,7 @@ import me.lwb.adapter.ext.replaceData
  * Created by ve3344@qq.com.
  * 分页加载的Adapter帮助类
  */
-class LoadMoreAdapterModule<I : Any, V : ViewBinding>(val adapter: MultiTypeBindingAdapter<I, V>) {
+class LoadMoreAdapterModule<I : Any, V : ViewBinding>(val adapter: MultiTypeBindingAdapter<I, V>, ) {
     /**
      * 当前绑定的数据源
      */
@@ -44,6 +44,7 @@ class LoadMoreAdapterModule<I : Any, V : ViewBinding>(val adapter: MultiTypeBind
 
 
     init {
+        //触发加载下一页
         adapter.doAfterBindViewHolder { holder, position, payloads ->
             adapter.recyclerView?.postAvoidComputingLayout {
                 uiReceiver?.onItemAccess(position)
@@ -51,21 +52,39 @@ class LoadMoreAdapterModule<I : Any, V : ViewBinding>(val adapter: MultiTypeBind
         }
     }
 
+    /**
+     * 添加加载状态监听
+     */
     fun addLoadMoreStatusListener(function: (LoadMoreStatus) -> Unit) {
         statusListeners += function
     }
 
+    /**
+     * 添加加载状态监听
+     */
     fun observeLoadMoreStatus(listener: (value: LoadMoreStatus) -> Unit) {
         addLoadMoreStatusListener(listener)
         listener.invoke(loadStatus)
     }
 
+    /**
+     * 设置数据
+     * @param lifecycleOwner 绑定生命周期
+     * @param data 分页数据
+     * @param initReload 是否需要加载初始页，默认打开
+     */
     fun setDataSource(
         lifecycleOwner: LifecycleOwner,
-        data: LoadMoreDataSource<I>
+        data: LoadMoreDataSource<I>,
     ) = setDataSource(lifecycleOwner.lifecycleScope, data)
 
 
+    /**
+     * 设置数据
+     * @param scope 绑定协程
+     * @param data 分页数据
+     * @param initReload 是否需要加载初始页，默认打开
+     */
     fun setDataSource(
         scope: CoroutineScope,
         data: LoadMoreDataSource<I>
@@ -83,10 +102,9 @@ class LoadMoreAdapterModule<I : Any, V : ViewBinding>(val adapter: MultiTypeBind
             }
             launch {
                 data.dataFlow.collect {
-                    if (it.isAppend) {
-                        adapter.appendData(it.data)
-                    } else {
-                        adapter.replaceData(it.data)
+                    when (it) {
+                        is DataChangeEvent.Append -> adapter.appendData(it.data)
+                        is DataChangeEvent.Replace -> adapter.replaceData(it.data)
                     }
                 }
             }
@@ -94,8 +112,14 @@ class LoadMoreAdapterModule<I : Any, V : ViewBinding>(val adapter: MultiTypeBind
         }
     }
 
+    /**
+     * 重新加载
+     */
     fun reload() = uiReceiver?.reload()
 
+    /**
+     * 重试加载
+     */
     fun retry() = uiReceiver?.retry()
 
 }

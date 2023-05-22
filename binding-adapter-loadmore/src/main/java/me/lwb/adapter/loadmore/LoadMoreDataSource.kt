@@ -13,26 +13,8 @@ class LoadMoreDataSource<T>(
     val dataFlow: Flow<DataChangeEvent<T>>,
     val statusFlow: StateFlow<LoadMoreStatus>,
 ) {
-    /**
-     * 数据流的单位，就是1次加载的数据集
-     */
-    class DataChangeEvent<T>(val data: Collection<T>, val isAppend: Boolean) {
-        override fun toString() =
-            if (isAppend) "Append(size=${data.size})" else "Replace(size=${data.size})"
-    }
+
+
 }
 
 
-sealed interface LoadMoreStatus {
-    /**
-     * 空闲
-     */
-    object Idle : LoadMoreStatus
-    /**
-     * 没有更多数据了
-     * @param isReload 当前是否为reload
-     */
-    class NoMore(val isReload: Boolean) : LoadMoreStatus
-    class Fail(val isReload: Boolean,val throwable: Throwable) : LoadMoreStatus
-    class Loading(val isReload: Boolean) : LoadMoreStatus
-}
