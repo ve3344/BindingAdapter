@@ -1,0 +1,14 @@
+@startmindmap
+'https://plantuml.com/mindmap-diagram
+
+
+* ItemViewMapperStore \n存储item 到view的映射
+** SingleTypeItemViewMapperStore \n单类型：存储一个item 到一个view的映射
+** MultiTypeItemViewMapperStore \n多类型：存储一组item 到一组view的映射
+*** buildMultiTypeAdapterByType \n通过Item类型区分不同布局
+*** buildMultiTypeAdapterByIndex \n自定义区分不同布局
+*** buildMultiTypeAdapterByMap \n自定义区分不同布局
+
+@endmindmap
+
+

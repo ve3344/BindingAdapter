@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/class-diagram
+class MultiTypeBindingAdapter
+
+class AutoNotifyModule{
+    - MultiTypeBindingAdapter adapter
+}
+AutoNotifyModule::adapter *-- MultiTypeBindingAdapter
+
+class InfiniteDataModule{
+    - MultiTypeBindingAdapter adapter
+}
+InfiniteDataModule::adapter *-- MultiTypeBindingAdapter
+
+class DiffModule{
+    - MultiTypeBindingAdapter adapter
+}
+DiffModule::adapter *-- MultiTypeBindingAdapter
+
+class AbstractSingleSelectModule{
+    - MultiTypeBindingAdapter adapter
+}
+AbstractSingleSelectModule::adapter *-- MultiTypeBindingAdapter
+
+class SingleSelectModuleByIndex extends AbstractSingleSelectModule
+class SingleSelectModuleByKey extends AbstractSingleSelectModule
+
+class AbstractMultiSelectModule{
+    - MultiTypeBindingAdapter adapter
+}
+AbstractMultiSelectModule::adapter *-- MultiTypeBindingAdapter
+
+class MultiSelectModuleByIndex extends AbstractMultiSelectModule
+class MultiSelectModuleByKey extends AbstractMultiSelectModule
+
+
+class StickItemModule
+
+class StickContainerLayout
+
+class ViewPagerModule
+AutoScrollViewPagerModule *-- ViewPagerModule
+
+class RecyclerWheelViewModule
+
+class RecyclerWheelView extends RecyclerView{
+    + RecyclerWheelViewModule wheelModule
+}
+RecyclerWheelView::wheelModule *-- RecyclerWheelViewModule
+
+class WheelWrapper{
+    - RecyclerWheelViewModule wheelModule
+}
+class LinkageWheelView extends LinearLayout{
+    + WheelWrapper wheels
+}
+LinkageWheelView::wheels *-- "包含多个" WheelWrapper
+WheelWrapper::wheelModule *-- RecyclerWheelViewModule
+
+@enduml

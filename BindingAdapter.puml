@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/class-diagram
+interface IVisibleAdapter{
+    + boolean isVisible
+}
+
+interface IBindingAdapter{
+    + RecyclerView recyclerView
+    + onAttachedToRecyclerViewListener
+    + onDetachedToRecyclerViewListener
+    + onBindViewHolderDelegate
+    + onCreateViewHolderDelegate
+}
+
+class BindingViewHolder<VB:ViewBinding>{
+    + boolean isGone
+    + RecyclerView.Adapter adapter
+    + VB itemBinding
+}
+
+class ItemViewMapperStore {}
+
+class MultiTypeBindingAdapter<T> {
+    + ItemViewMapperStore itemViewMapperStore
+    + List<T> data
+}
+IVisibleAdapter <|.. MultiTypeBindingAdapter
+IBindingAdapter <|.. MultiTypeBindingAdapter
+class BindingAdapter extends MultiTypeBindingAdapter
+class SingleViewBindingAdapter extends BindingAdapter
+
+
+
+MultiTypeBindingAdapter::itemViewMapperStore *-- "包含" ItemViewMapperStore
+
+@enduml
+

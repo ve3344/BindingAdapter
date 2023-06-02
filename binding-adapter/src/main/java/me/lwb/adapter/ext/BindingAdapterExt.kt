@@ -110,7 +110,10 @@ fun <I : Any, V : ViewBinding> MultiTypeBindingAdapter<I, V>.appendData(appendDa
 fun <I : Any, V : ViewBinding> ItemViewMapperStore<I, V>.asAdapter(list: List<I> = ArrayList()) =
     MultiTypeBindingAdapter(this, list)
 
-
+/**
+ * 拷贝Adapter
+ * @param newData 新数据
+ */
 fun <I : Any, V : ViewBinding> MultiTypeBindingAdapter<I, V>.copy(newData: List<I> = data): MultiTypeBindingAdapter<I, V> {
     return MultiTypeBindingAdapter(
         itemViewMapperStore,

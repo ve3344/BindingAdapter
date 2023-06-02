@@ -1,10 +1,9 @@
 # 使用ViewBinding Adapter
 
-
 <p align="center">
 <img src="https://img.shields.io/badge/language-kotlin-orange.svg"/>
-<a href="https://github.com/ve3344/binding-adapter/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache-blue"/></a>
-<a href="https://jitpack.io/#ve3344/binding-adapter"><img src="https://jitpack.io/v/ve3344/binding-adapter.svg"/></a>
+<a href="https://github.com/ve3344/BindingAdapter/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache-blue"/></a>
+<a href="https://jitpack.io/#ve3344/BindingAdapter"><img src="https://jitpack.io/v/ve3344/BindingAdapter.svg"/></a>
 </p>
 
 ❤ BindingAdapter是一个使用ViewBinding 直接生成RecyclerView Adapter的库，避免创建Adapter类和ViewHolder类。减少80%的代码。
@@ -13,7 +12,7 @@
 
 并通过AOP的思想解耦了分页模块，选择模块，悬浮模块，等等，使BindingAdapter核心类保持精简，且各个模块自己相互独立。
 
-所有的功能均能在示例中找到。 项目地址[BindingAdapter](https://github.com/ve3344/binding-adapter)
+所有的功能均能在示例中找到。 项目地址[BindingAdapter](https://github.com/ve3344/BindingAdapter)
 
 # 特点
 
@@ -67,21 +66,19 @@ dependencyResolutionManagement {
 
 #### 添加依赖
 
-[![binding-adapter](https://img.shields.io/jitpack/version/com.github.ve3344/binding-adapter?label=binding-adapter)](https://jitpack.io/#ve3344/binding-adapter)
-
-
+[![BindingAdapter](https://img.shields.io/jitpack/version/com.github.ve3344/BindingAdapter?label=BindingAdapter)](https://jitpack.io/#ve3344/BindingAdapter)
 
 ```groovy
 //in build.gradle(module)
 dependencies {
     //核心类
-    implementation "com.github.ve3344.binding-adapter:binding-adapter:2.0.0"
+    implementation "com.github.ve3344.BindingAdapter:binding-adapter:2.1.0"
     //动态加载 分页模块
-    implementation "com.github.ve3344.binding-adapter:binding-adapter-loadmore:2.1.0"
+    implementation "com.github.ve3344.BindingAdapter:binding-adapter-loadmore:2.1.0"
     //常用拓展模块，单选，多选，WheelView，粘性Item，ViewPager无限数据等
-    implementation "com.github.ve3344.binding-adapter:binding-adapter-modules:2.0.0"
+    implementation "com.github.ve3344.BindingAdapter:binding-adapter-modules:2.1.0"
     //paging3分页模块
-    implementation "com.github.ve3344.binding-adapter:binding-adapter-paging:2.0.0"
+    implementation "com.github.ve3344.BindingAdapter:binding-adapter-paging:2.1.0"
 }
 ```
 
@@ -100,7 +97,7 @@ android {
 
 # 使用
 
-## [文档](https://github.com/ve3344/binding-adapter/wiki)
+## 普通Adapter
 
 ```kotlin
 //in XxxActivity.ky
@@ -115,40 +112,56 @@ val adapter = BindingAdapter<ItemBean, ItemBinding>(ItemBinding::inflate) { posi
 //adapter.replaceData(...)//替换数据
 ```
 
-更多使用方式见Demo
+## 多布局Adapter
 
-<img src="demo.png"  height="400" width="400" >
+```kotlin
+val adapter = buildMultiTypeAdapterByType {
+    layout<String, ItemSimpleTitleBinding>(ItemSimpleTitleBinding::inflate) { _, item ->
+        itemBinding.title.text = item
+    }
+    layout<Date, ItemSimpleBinding>(ItemSimpleBinding::inflate) { _, item ->
+        itemBinding.title.text = item.toString()
+    }
+}
+```
 
-[Demo下载](https://raw.githubusercontent.com/ve3344/binding-adapter/master/app/release/app-release.apk)
+## 添加Header
+
+```kotlin
+val header = SingleViewBindingAdapter(HeaderSimpleBinding::inflate)
+val adapter =
+    header + BindingAdapter<ItemBean, ItemBinding>(ItemBinding::inflate) { position, item ->
+        //在绑定器内，配置对ui元素和bean属性之间的绑定，设置点击事件等。
+        itemBinding.title.text = item.title
+        itemBinding.title.setOnClickListener {
+
+        }
+    }
+
+```
+
+更多使用方式见文档
+
+## [文档](https://github.com/ve3344/BindingAdapter/wiki)
+
 
 # 预览
 
-<img src="preview/img1.jpg"  height="400" width="212">
 
-<img src="preview/img2.jpg"  height="400" width="212">
+| ![](preview/img1.jpg)  | ![](preview/img2.jpg)                                                                                                 | ![](preview/img3.jpg) |
+|------------------------|-----------------------------------------------------------------------------------------------------------------------|-----------------------|
+| ![](preview/img4.jpg)  | ![](preview/img5.jpg)                                                                                                 | ![](preview/img6.jpg) |
+| ![](preview/img7.jpg)  | ![](preview/img8.jpg)                                                                                                 | ![](preview/img9.jpg) |
+| ![](preview/img10.jpg) | ![](demo.png)  [Demo下载](https://raw.githubusercontent.com/ve3344/BindingAdapter/master/app/release/app-release.apk)  |  |
 
-<img src="preview/img3.jpg"  height="400" width="212">
 
-<img src="preview/img4.jpg"  height="400" width="212">
 
-<img src="preview/img5.jpg"  height="400" width="212">
-
-<img src="preview/img6.jpg"  height="400" width="212">
-
-<img src="preview/img7.jpg"  height="400" width="212">
-
-<img src="preview/img8.jpg"  height="400" width="212">
-
-<img src="preview/img9.jpg"  height="400" width="212">
-
-<img src="preview/img10.jpg"  height="400" width="212">
 
 ## 感谢
 
 [玩Android Api](https://wanandroid.com/)
 
 [StickyHeaderScrollView](https://github.com/kongnanlive/StickyHeaderScrollView)
-
 
 # License
 

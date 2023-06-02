@@ -70,17 +70,19 @@ val adapter =
 当无法按Class来区分布局类型的时候可以使用该方式
 
 - buildMultiTypeAdapterByIndex 自定义匹配类型构建多类型Adapter
+- builder.layout 定义布局，返回布局类型id
+- builder.extractItemViewType 指定Item所对于的布局类型id
 
 ```kotlin
 //2.自定义ItemType
 val adapter = buildMultiTypeAdapterByIndex<DataType> {
-    val type0 = layout(ItemSimpleTitleBinding::inflate) { _, item: DataType.TitleData ->
+    val typeTitle = layout(ItemSimpleTitleBinding::inflate) { _, item: DataType.TitleData ->
         itemBinding.title.text = item.text
     }
-    val type1 = layout(ItemSimpleBinding::inflate) { _, item: DataType.NormalData ->
+    val typeNormal = layout(ItemSimpleBinding::inflate) { _, item: DataType.NormalData ->
         itemBinding.title.text = item.text
     }
-    extractItemViewType { position, item -> if (position % 10 == 0) type0 else type1 }
+    extractItemViewType { position, item -> if (position % 10 == 0) typeTitle else typeNormal }
 
 }
 ```
@@ -90,17 +92,22 @@ val adapter = buildMultiTypeAdapterByIndex<DataType> {
 类似于原生的方式，需要自己维护id，不推荐
 
 - buildMultiTypeAdapterByMap 自定义匹配类型构建多类型Adapter
+- builder.layout 定义布局，使用固定的布局类型id
+- builder.extractItemViewType 指定Item所对于的布局类型id
 
 ```kotlin
 //3.自定义ItemType
 val adapter = buildMultiTypeAdapterByMap<DataType> {
-    layout(0, ItemSimpleTitleBinding::inflate) { _, item: DataType.TitleData ->
-        itemBinding.title.text = item.text
-    }
-    layout(1, ItemSimpleBinding::inflate) { _, item: DataType.NormalData ->
-        itemBinding.title.text = item.text
-    }
-    extractItemViewType { _, item -> if (item is DataType.TitleData) 0 else 1 }
+  val typeTitle = 0
+  val typeNormal = 1
+  layout(typeTitle, ItemSimpleTitleBinding::inflate) { _, item: DataType.TitleData ->
+    itemBinding.title.text = item.text
+  }
+  layout(typeNormal, ItemSimpleBinding::inflate) { _, item: DataType.NormalData ->
+    itemBinding.title.text = item.text
+  }
+  extractItemViewType { _, item -> if (item is DataType.TitleData) typeTitle else typeNormal }
+
 }
 
 ```
@@ -111,9 +118,11 @@ val adapter = buildMultiTypeAdapterByMap<DataType> {
 
 [ConcatAdapter](https://developer.android.google.cn/reference/androidx/recyclerview/widget/ConcatAdapter?hl=en)
 
-得益于ConcatAdapter的灵活性，我们可以直接使用`+`拼接多个Adapter 来实现Header/Footer的效果，拼接顺序即Header、内容、Footer的相对位置。
+得益于ConcatAdapter的灵活性，我们可以直接使用`+`拼接多个Adapter
+来实现Header/Footer的效果，拼接顺序即Header、内容、Footer的相对位置。
 
-SingleViewBindingAdapter 是BindingAdapter的一个子类，它只有一个元素，可以很方便生成 Header/Footer 的Adapter
+SingleViewBindingAdapter 是BindingAdapter的一个子类，它只有一个元素，可以很方便生成 Header/Footer
+的Adapter
 
 - `+` 依次连接多个Adapter
 - adapter.copy()
@@ -230,7 +239,8 @@ adapter.data.add(0, data)
 
 - LazyListWrapper 动态的将List的代理到不同的实现
 
-- adapter.setupDiffModule() 替换实现类为 AsyncListDiffer内部的List 来使用Differ模块，避免继承ListAdapter 或者 修改Adapter类
+- adapter.setupDiffModule() 替换实现类为 AsyncListDiffer内部的List 来使用Differ模块，避免继承ListAdapter
+  或者 修改Adapter类
 
 - diffModule.submitList() 提供新数据，差量更新模块会计算旧数据和新数据的变更，并应用到Adapter上
 
@@ -332,7 +342,8 @@ loadMoreModule.reload()//启动加载第一页
 
 加载状态布局可以用一个SingleViewBindingAdapter 来完成，然后监听状态变更刷新内容，本库也提供了拓展方法来简化创建
 
-- loadMoreModule.createLoadMoreStatusAdapter() 创建一个Adapter，同时根据LoadMoreStatus去更新Footer内容 。
+- loadMoreModule.createLoadMoreStatusAdapter() 创建一个Adapter，同时根据LoadMoreStatus去更新Footer内容
+  。
 
 ```kotlin
 module.createLoadMoreStatusAdapter(FooterProjectBinding::inflate) {
@@ -380,7 +391,8 @@ module.createLoadMoreStatusAdapter(FooterProjectBinding::inflate) {
 
 - loadMoreModule.createEmptyStateAdapter() 可以快速创建一个空布局。
 
-需要注意，空布局和加载布局同时使用时，加载布局需要特殊处理一下判断是第一页就不需要显示了，以免 "空布局" 和 "没有更多数据了" 同时出现
+需要注意，空布局和加载布局同时使用时，加载布局需要特殊处理一下判断是第一页就不需要显示了，以免 "空布局"
+和 "没有更多数据了" 同时出现
 
 ```kotlin
 loadMoreAdapterModule.createEmptyStateAdapter(LayoutEmptyBinding::inflate) {}
@@ -543,10 +555,14 @@ binding.list.layoutManager = StickyLayoutManager(this) { adapter.data }
 某些情况头部布局比较复杂，且并不属于RecyclerView的Item，本库单独实现了一个StickContainerLayout 来帮助此类。
 
 1. 添加StickContainerLayout 到xml 布局中
-- `app:stick_scroll_mode=""` 控制滚动头部相比较于内容的优先级（before_scroll_up、before_scroll_down、after_scroll_up、after_scroll_down的组合）
-- `app:stick_mode="sticking_all"`  配置多个粘性头部的模式（sticking_all：所有的粘性布局依次显示，sticking_latest：最后一个粘性将上一个顶上去）
 
-- stickContainerLayout.stickMode 配置多个粘性头部的模式，StickingLatest：最后一个粘性将上一个顶上去,StickingAll 所有的粘性布局依次显示
+- `app:stick_scroll_mode=""`
+  控制滚动头部相比较于内容的优先级（before_scroll_up、before_scroll_down、after_scroll_up、after_scroll_down的组合）
+- `app:stick_mode="sticking_all"`
+  配置多个粘性头部的模式（sticking_all：所有的粘性布局依次显示，sticking_latest：最后一个粘性将上一个顶上去）
+
+- stickContainerLayout.stickMode 配置多个粘性头部的模式，StickingLatest：最后一个粘性将上一个顶上去,StickingAll
+  所有的粘性布局依次显示
 
 - stickContainerLayout.stickScrollMode 滚动顺序配置：
 
@@ -668,15 +684,16 @@ private val adapter =
 ```
 
 ### 多滚轮联动
+
 LinkageWheelView 帮助多个WheelView进行联动
 
 - linkageWheelView.setAdapterFactory() 设置Adapter工厂，决定了WheelView的样式（必须）
 - linkageWheelView.setData() 设置数据，决定了WheelView的数据来源（必须）
 - linkageWheelView.currentPositions 获取/设置当前所有滚轮选中位置
 - linkageWheelView.currentItems 获取当前所有滚轮选中内容
-- linkageWheelView.onSelectListener 当前滚轮选中变化回调 
-- linkageWheelView.wheelOffset 滚轮上下留白的Item数量 
-- linkageWheelView.wheelDecoration 设置分割线 
+- linkageWheelView.onSelectListener 当前滚轮选中变化回调
+- linkageWheelView.wheelOffset 滚轮上下留白的Item数量
+- linkageWheelView.wheelDecoration 设置分割线
 
 ```kotlin
 linkageWheelView.setAdapterFactory { WheelAdapter() }
@@ -688,6 +705,68 @@ linkageWheelView.setData {
     provideData { provinces[it[0].selectedPosition].cities[it[1].selectedPosition].counties }
 }
 ```
+
+# 示例代码
+
+### basic(基本使用)
+
+[MutableActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/basic/MutableActivity.kt)
+
+[MultiTypeActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/basic/MultiTypeActivity.kt)
+
+[ExpandActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/basic/ExpandActivity.kt)
+
+[HeaderFooterActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/basic/HeaderFooterActivity.kt)
+
+[DiffActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/basic/DiffActivity.kt)
+
+### loadmore(分页)
+
+[LoadMoreLinearActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/loadmore/LoadMoreLinearActivity.kt)
+
+[LoadMoreGridActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/loadmore/LoadMoreGridActivity.kt)
+
+[LoadMoreStaggeredGridActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/loadmore/LoadMoreStaggeredGridActivity.kt)
+
+### nested(嵌套)
+
+[NestedRecyclerViewActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/nested/NestedRecyclerViewActivity.kt)
+
+[NestedByTypeActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/nested/NestedByTypeActivity.kt)
+
+### paging(Paging分页)
+
+[PagingActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/paging/PagingActivity.kt)
+
+[MultiTypeActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/paging/MultiTypeActivity.kt)
+
+### select(选择)
+
+[SingleSelectActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/select/SingleSelectActivity.kt)
+
+[MultiSelectActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/select/MultiSelectActivity.kt)
+
+[DialogSelectActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/select/DialogSelectActivity.kt)
+
+### stick(悬浮)
+
+[MyStickItemActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/stick/MyStickItemActivity.kt)
+
+[MyStickHeaderActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/stick/MyStickHeaderActivity.kt)
+
+[StickItemActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/stick/StickItemActivity.kt)
+
+### viewpager(ViewPager)
+
+[ViewPagerActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/viewpager/ViewPagerActivity.kt)
+
+### wheel(滚轮)
+
+[WheelActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/wheel/WheelActivity.kt)
+
+[AddressWheelActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/wheel/AddressWheelActivity.kt)
+
+[CalendarWheelActivity](app/src/main/java/me/lwb/adapter/demo/ui/activity/wheel/CalendarWheelActivity.kt)
 
 # 关于拓展模块
 
