@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface LoadMoreDataFetcher{
+    + fetch()
+}
+interface UiReceiver{
+    + reload()
+    + loadMore()
+    + retry()
+    + onItemAccess()
+}
+enum LoadMoreStatus{
+    Idle
+    NoMore
+    Fail
+    Loading
+}
+
+class LoadMoreDataSource{
+    + UiReceiver uiReceiver
+    + Flow<DataChangeEvent<T>> dataFlow
+    + StateFlow<LoadMoreStatus>  statusFlow
+}
+LoadMoreDataSource::uiReceiver *-- "包含" UiReceiver
+LoadMoreDataSource::statusFlow *-- "包含" LoadMoreStatus
+
+class ViewModel.LoadMoreData{
+    - LoadMoreDataFetcher fetcher
+    + LoadMoreDataSource source
+    + int fetchDistance
+    + reload()
+    + loadMore()
+    + retry()
+}
+ViewModel.LoadMoreData::source *-- "包含" LoadMoreDataSource
+ViewModel.LoadMoreData::fetcher *-- "包含" LoadMoreDataFetcher
+
+
+class View.LoadMoreAdapterModule{
+    - LoadMoreDataSource attachedData
+    + setDataSource()
+}
+
+
+View.LoadMoreAdapterModule::setDataSource "数据来源" <-- ViewModel.LoadMoreData::source
+@enduml

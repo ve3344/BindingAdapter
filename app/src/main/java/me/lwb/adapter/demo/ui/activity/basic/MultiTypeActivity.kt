@@ -38,23 +38,26 @@ open class MultiTypeActivity : AppCompatActivity() {
         }
 
     val adapter2 = buildMultiTypeAdapterByMap<DataType> {
-        extractItemViewType { _, item -> if (item is DataType.TitleData) 0 else 1 }
-        layout(0, ItemSimpleTitleBinding::inflate) { _, item: DataType.TitleData ->
+        val typeTitle = 0
+        val typeNormal = 1
+        layout(typeTitle, ItemSimpleTitleBinding::inflate) { _, item: DataType.TitleData ->
             itemBinding.title.text = item.text
         }
-        layout(1, ItemSimpleBinding::inflate) { _, item: DataType.NormalData ->
+        layout(typeNormal, ItemSimpleBinding::inflate) { _, item: DataType.NormalData ->
             itemBinding.title.text = item.text
         }
+        extractItemViewType { _, item -> if (item is DataType.TitleData) typeTitle else typeNormal }
+
     }
 
     val adapter3 = buildMultiTypeAdapterByIndex {
-        val type0 = layout(ItemSimpleTitleBinding::inflate) { _, item: DataType.TitleData ->
+        val typeTitle = layout(ItemSimpleTitleBinding::inflate) { _, item: DataType.TitleData ->
             itemBinding.title.text = item.text
         }
-        val type1 = layout(ItemSimpleBinding::inflate) { _, item: DataType.NormalData ->
+        val typeNormal = layout(ItemSimpleBinding::inflate) { _, item: DataType.NormalData ->
             itemBinding.title.text = item.text
         }
-        extractItemViewType { position, _ -> if (position % 10 == 0) type0 else type1 }
+        extractItemViewType { position, _ -> if (position % 10 == 0) typeTitle else typeNormal }
 
     }
 
